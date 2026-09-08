@@ -1,6 +1,8 @@
-#;Empresa (nome de marca = entrada);CNPJ;Razao social;Municipio;Proprietario / Administrador;Outros socios;Telefone achado;Fonte do dono;Tier
-1;Montri;06.071.442/0001-05;MONTRI COMERCIO DE MOVEIS LTDA;Tubarao/SC;Enedio Batista da Silva Nasario (socio-administrador);Josue Cardoso Correa;(48) 3628-**** e (48) 99913-**** (mascarados no diretorio);cnpj.biz + econodata;B
-2;Corremar Moveis;79.692.968/0001-86;CORREMAR MOVEIS LTDA - ME;Tubarao/SC;Arlan de Oliveira Mateus (administrador);-;(48) 3628-0297 (fixo);econodata + cnpj.biz;B
-3;Moveis Sao Martinho;44.897.331/0001-41;MOVEIS SAO MARTINHO LTDA;Tubarao/SC;Tarcisio Matheus da Silva (administrador);-;-;econodata;C
-4;Prime Moveis;73.205.072/0001-49;PRIME COMERCIO DE MOVEIS LTDA;Tubarao/SC;Jamur Faust Lima (administrador);-;(48) 9820-4867;inteligen + econodata;B
-5;FJ Moveis;07.407.581/0001-20;FJ INDUSTRIA COMERCIO DE MOVEIS LTDA;Tubarao/SC;Fabiano Marcelino Moraes (administrador);-;-;econodata + cnpj.info;C
+#;Empresa;CNPJ;Municipio;Proprietario / Administrador;Telefone;Instagram;Site;Tier
+1;Montri;06.071.442/0001-05;Tubarao/SC;Enedio Batista da Silva Nasario (socio-adm);(48) 3628-**** e (48) 99913-**** (mascarados);@montri_oficial;lp.montri.com.br;B
+2;Corremar Moveis;79.692.968/0001-86;Tubarao/SC;Arlan de Oliveira Mateus (adm);(48) 3628-0297 (fixo, completo);@corremarmoveistb;-;B
+3;Moveis Sao Martinho;44.897.331/0001-41;Tubarao/SC;Tarcisio Matheus da Silva (adm);(48) 99966-**** (celular, mascarado);-;-;B
+4;Prime Moveis;73.205.072/0001-49;Tubarao/SC;Jamur Faust Lima (adm);(48) 9820-4867;nao confirmado;-;B
+5;FJ Moveis;07.407.581/0001-20;Tubarao/SC;Fabiano Marcelino Moraes (adm);-;@fjmoveis.oficial (nao confirmado);-;C
+;;;;;;;;
+TOTAL;5 leads;5/5 CNPJ;5/5 municipio confere;5/5 dono identificado;4/5 tem telefone (2 completos);2/5;1/5;WhatsApp confirmado 0/5

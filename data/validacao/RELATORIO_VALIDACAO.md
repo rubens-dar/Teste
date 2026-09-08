@@ -87,3 +87,48 @@ pip install -r requirements.txt
 python -m leadhunter doctor
 python -m leadhunter enrich <planilha> -n 5
 ```
+
+---
+
+# Rodada 2 — a perna de contato, só com buscador
+
+Cobrança justa: a rodada 1 testou só `marca → CNPJ → dono`. Esta testa a segunda
+metade — site, Instagram, telefone — ainda sem poder abrir página nenhuma.
+
+| | Empresa | Telefone | Instagram | Site |
+|---|---|---|---|---|
+| 1 | Montri | (48) 3628-\*\*\*\* e (48) 99913-\*\*\*\* | @montri_oficial (via Facebook) | lp.montri.com.br |
+| 2 | Corremar Móveis | **(48) 3628-0297** (fixo, completo) | **@corremarmoveistb** | — |
+| 3 | Móveis São Martinho | (48) 99966-\*\*\*\* | — | — |
+| 4 | Prime Móveis | **(48) 9820-4867** | não confirmado | — |
+| 5 | FJ Móveis | — | @fjmoveis.oficial (não confirmado) | — |
+
+- Telefone **completo**: 2/5
+- Telefone **existe mas vem mascarado**: +2/5 → **4/5 têm telefone cadastrado**
+- Instagram: 2/5 (1 confirmado, 1 provável)
+- WhatsApp confirmado: **0/5**
+
+## O achado que muda a leitura do número
+
+Dois dos telefones mascarados são **celular**: `(48) 99913-****` (Montri) e
+`(48) 99966-****` (São Martinho). Celular brasileiro é, na prática, WhatsApp.
+
+Então o dado existe e está no cadastro — o que falta é só o direito de ler o número
+inteiro. Quem lê é a BrasilAPI/MinhaReceita, que devolve `ddd_telefone_1` sem máscara
+e é o caminho principal do pipeline. Os diretórios gratuitos mascaram justamente
+porque não são a fonte, são revenda dela.
+
+## O que continua sem teste
+
+- **Google Maps**: exige a Places API — chave e chamada de rede. Nenhuma das duas existe aqui. Zero cobertura.
+- **Bio do Instagram**: o handle a busca acha; a bio, onde mora o WhatsApp, só abrindo o perfil.
+- **Site da empresa**: achei `lp.montri.com.br`, mas raspar `/contato` atrás de `mailto:`/`wa.me` exige baixar a página.
+- **Perfil do Mercado Livre**: idem.
+
+## Conclusão honesta das duas rodadas
+
+O que dá pra afirmar com teste: **a identificação do dono funciona** (5/5) e **a
+empresa tem telefone cadastrado em 4/5**.
+
+O que **não** dá pra afirmar com teste: a taxa de WhatsApp. Ela depende inteiramente
+das quatro fontes acima, todas bloqueadas neste ambiente. Só medindo na sua máquina.
