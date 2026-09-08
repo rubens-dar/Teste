@@ -116,3 +116,36 @@ def test_write_outputs(tmp_path):
     assert "(48) 99912-3456" in content
     assert "Joao Da Silva" in content
     assert paths["json"].exists()
+
+
+def test_owners_from_results_le_quadro_societario_do_snippet():
+    from leadhunter.sources.search import owners_from_results
+
+    results = [
+        {"url": "https://cnpj.biz/06071442000105", "title": "Montri Comercio de Moveis LTDA",
+         "snippet": "Socios: Enedio Batista da Silva Nasario (Socio-Administrador)"
+                    " e Josue Cardoso Correa (Socio)."},
+        {"url": "https://www.econodata.com.br/consulta-empresa/79692968000186-corremar",
+         "title": "Corremar Moveis Ltda em Tubarao, SC",
+         "snippet": "tem Arlan de Oliveira Mateus como Administrador."},
+        # agregador que nao e diretorio de CNPJ nao pode virar fonte de dono
+        {"url": "https://www.mercadolivre.com.br/loja/x", "title": "loja",
+         "snippet": "Joao Ninguem (Socio-Administrador)"},
+    ]
+    achados = owners_from_results(results)
+    nomes = [nome for nome, _, _ in achados]
+    assert nomes[:2] == ["Enedio Batista Da Silva Nasario", "Arlan De Oliveira Mateus"]
+    assert "Joao Ninguem" not in nomes
+    # administrador tem que valer mais que socio comum
+    assert achados[0][1] > achados[-1][1]
+    assert achados[-1][0] == "Josue Cardoso Correa"
+
+
+def test_owners_from_results_descarta_razao_social():
+    from leadhunter.sources.search import owners_from_results
+
+    results = [{
+        "url": "https://cnpj.biz/79692968000186", "title": "Corremar",
+        "snippet": "Corremar Moveis Ltda - Administrador nao informado. Quadro Societario: -",
+    }]
+    assert owners_from_results(results) == []

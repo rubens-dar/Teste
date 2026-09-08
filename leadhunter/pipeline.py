@@ -12,7 +12,9 @@ from leadhunter.models import (
 from leadhunter.normalize import digits, slug_name
 from leadhunter.scoring import score
 from leadhunter.sources import gmaps, mercadolivre, receita, social, website
-from leadhunter.sources.search import cnpj_candidates_from_results, official_sites, search
+from leadhunter.sources.search import (
+    cnpj_candidates_from_results, official_sites, owners_from_results, search,
+)
 
 log = logging.getLogger("leadhunter")
 
@@ -117,6 +119,22 @@ def process(lead: Lead) -> Result:
         res.errors.append("CNPJ nao identificado")
 
     empresa = res.first(RAZAO) or res.first(FANTASIA) or aliases[0]
+
+    # Receita fora do ar ou sem QSA: os diretorios de CNPJ publicam o quadro
+    # societario no proprio snippet do buscador, o que salva o dado do dono.
+    if not res.first(OWNER):
+        try:
+            achados = owners_from_results(
+                search(f'"{empresa}" CNPJ socios {lead.cidade} {lead.uf}', limit=10)
+            )
+        except Exception as exc:
+            achados = []
+            res.errors.append(f"busca de socios: {exc}")
+        for nome, conf, url in achados[:2]:
+            res.add(Evidence(OWNER, nome, "busca_diretorios", conf, url,
+                             "quadro societario citado em diretorio de CNPJ",
+                             personal=True))
+
     owner = res.first(OWNER)
 
     try:
