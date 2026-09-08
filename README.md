@@ -37,10 +37,11 @@ O resto do pipeline existe para (a) achar o CNPJ quando ele não está exposto e
 | 1 | **Mercado Livre** | `seller_id` pela API pública; depois raspa o perfil e um anúncio atrás do bloco legal (`razão social` + `CNPJ`) que a plataforma é obrigada a exibir | não |
 | 2 | **CNPJ por nome** | se o passo 1 não achou: base local da Receita (ver abaixo) e, como reserva, diretórios de CNPJ via buscador | não |
 | 3 | **Receita Federal** | sócios/proprietário, telefone cadastral, e-mail cadastral, endereço, CNAE — via BrasilAPI, com MinhaReceita e CNPJ.ws como reserva | não |
-| 4 | **Google Maps** | telefone que a empresa de fato atende, no perfil do Google Business | `GOOGLE_MAPS_KEY` |
-| 5 | **Site da empresa** | acha o site pelo buscador e raspa home + `/contato` + `/sobre`: `mailto:`, `tel:`, links `wa.me`, e-mails e telefones no texto | não |
-| 6 | **Instagram / LinkedIn** | bio do Instagram (onde loja pequena publica o WhatsApp) e perfil do dono no LinkedIn | não |
-| 7 | **Consolidação** | deduplica, normaliza para E.164, promove todo celular a candidato a WhatsApp, pontua e classifica | — |
+| 4 | **Sócios via buscador** | lê o quadro societário citado no snippet dos diretórios de CNPJ — reserva de quando a Receita não responde | não |
+| 5 | **Google Maps** | telefone que a empresa de fato atende, no perfil do Google Business | `GOOGLE_MAPS_KEY` |
+| 6 | **Site da empresa** | acha o site pelo buscador e raspa home + `/contato` + `/sobre`: `mailto:`, `tel:`, links `wa.me`, e-mails e telefones no texto | não |
+| 7 | **Instagram / LinkedIn** | bio do Instagram (onde loja pequena publica o WhatsApp) e perfil do dono no LinkedIn | não |
+| 8 | **Consolidação** | deduplica, normaliza para E.164, promove todo celular a candidato a WhatsApp, pontua e classifica | — |
 
 Todo CNPJ descoberto por nome só é aceito depois de **confirmado na Receita**: o município
 tem que ser o da planilha e o nome tem que bater por similaridade. Isso evita o pior erro
